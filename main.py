@@ -12,7 +12,7 @@ def load_character_json(name: str):
     try:
         with open(f"{name}.json") as fh:
             lines = fh.read()
-    except:
+    except FileNotFoundError:
         return {}, False
     character_info = json.loads(lines)
     if character_info != {}:
