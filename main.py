@@ -6,10 +6,18 @@ def load_character_json(name: str):
     """
     This loads the json files for a character into a dict for the character.
 
-    :param name: name of the json to be loaded (be sure to append the `.json` when opening it.
+    :param name: name of the json to be loaded (be sure to append the `.json` when opening it).
     :return: a dictionary for the requested character, a boolean value indicating a character was successfully loaded
     """
-    return {}, True
+    try:
+        with open(f"{name}.json") as fh:
+            lines = fh.read()
+    except:
+        return {}, False
+    character_info = json.loads(lines)
+    if character_info != {}:
+        return character_info, True
+    return {}, False
 
 
 def make_attack(to_hit: int, weapon_damage: str, target_ac: int):
@@ -43,7 +51,7 @@ if __name__ == "__main__":
     # Character selection
     while True:
         good_guy['name'] = input("Which character are you?")
-        good_guy, success = load_character_json(good_guy.get('name'))
+        good_guy, success = load_character_json(good_guy.get('name'))  # {}, True
         if success:
             break
         print(f"{good_guy['name']} is not a valid character sheet. Please choose again.")
